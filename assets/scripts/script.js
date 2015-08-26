@@ -3,27 +3,38 @@ $(document).ready(function() {
     var jsonData = [];
 
     //Get the JSON and save to array and call functions
-    $.getJSON('data.json', function(data) {
-
+    $.getJSON('assets/scripts/data.json', function(data) {
         jsonData = data;
-        //render();
-        saveAll();
-        //save("Rønne");
 
-        //Clear jsonData array
-        jsonData = [];
+        //Render home page
+        render("Home");
     });
 
     //Render on index page console
-    var render = function() {
-        for ( var item in jsonData.aspit ) { 
+    var render = function(arg) {
+        $(".page-article").empty();
 
+        for ( var item in jsonData.aspit ) {
             var key = jsonData.aspit[item];
 
-            console.log(key.city);
-            for ( var x = 0; x < key.times.length; x++ ) {
-                console.log(key.times[x]);
-            }  
+            var city = key.city;
+            var time = key.times;
+
+            var page = key.page;
+            var content = key.content;
+
+            if ( city === arg ) {
+                console.log(arg);
+                for ( var i = 0; i < key.times.length; i++ ) {
+                    console.log(time[i]); 
+
+                    $(".page-article").append("<section class='article-card'><span>Pause: " + time[i][0] + " - " + time[i][1] + "</span></section>");
+                }
+            }
+
+            if ( page === arg ) {
+                $(".page-article").append("<p>" + content + "</p>");
+            }
         }
     };
 
@@ -84,10 +95,23 @@ $(document).ready(function() {
 
     //For template navigation
     $(".page-nav ul li a").click(function() {
-        console.log("click");
         if ( $(".page-nav ul li a").hasClass("nav--active") ) {
             $(".page-nav ul li a").removeClass("nav--active");
             $(this).addClass("nav--active");
+        }
+
+        if ( $(this).hasClass("nav-item") ) {
+            var page = $(this).html();
+
+            $(".page-city").html(page);
+            render(page);
+        }
+
+        if ( $(this).hasClass("nav-city") ) {
+            var city = $(this).html();
+
+            $(".page-city").html(city + " Times");
+            render(city);
         }      
     });
 });
