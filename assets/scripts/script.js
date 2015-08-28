@@ -1,5 +1,7 @@
 $(document).ready(function() {
 
+    var body = $("body");
+
     var jsonData = [];
 
     //Get the JSON and save to array and call functions
@@ -9,6 +11,10 @@ $(document).ready(function() {
         //Render home page
         render("Home");
     });
+
+    setInterval(function() {
+        checkTime("Næstved");
+    }, 1000)
 
     //Render on index page console
     var render = function(arg) {
@@ -36,7 +42,63 @@ $(document).ready(function() {
                 $(".page-article").append("<p>" + content + "</p>");
             }
         }
+
+        //checkLocation();
     };
+
+    //Notifications
+    var nt = function(the_body, the_icon, the_title) {
+
+        Notification.requestPermission();
+
+        var options = {
+            body: the_body,
+            icon: the_icon
+        }
+
+        var n = new Notification(the_title, options);
+    };
+
+    //Check time
+    var checkTime = function(arg) {
+
+        for ( var item in jsonData.aspit ) {
+            var key = jsonData.aspit[item];
+
+            var city = key.city;
+            var time = key.times;
+
+            if ( city === arg ) {
+                for ( var i = 0; i < key.times.length; i++ ) {
+                    var cuho = new Date().getHours();
+                    var cumi = new Date().getMinutes();
+                    var cuse = new Date().getSeconds();
+
+                    var times  = [];
+                    var split1 = [];
+
+                    times += key.times[i];
+                    var new_times = times.replace(/:|,/g,' ').split(" ").map(Number);
+
+                    console.log(cuho + ":" + cumi + ":" + cuse);
+                    //console.log(new_times[0] + " " + new_times[1]);
+
+                    if ( cuho === new_times[0] && cumi === new_times[1] && cuse === 0 ) {
+                        nt("Time to take a break", "assets/images/alarm.svg", "Break");
+                    }
+                }
+            }
+        }
+    };
+
+    //Check location based on input
+    // var checkLocation = function () {
+    //     var nt_content = "<input type='text' />";
+    //     var nt_wrapper = "<div id=''><p class='fontawesome-bell-alt'>" + nt_content + "</p></div>"
+
+    //     body.prepend(nt_wrapper);
+    //     var nt = $("#page_notification");
+    // };
 
     //Format the text and save to localStorage
     var saveAll = function() {
@@ -95,11 +157,15 @@ $(document).ready(function() {
 
     //For template navigation
     $(".page-nav ul li a").click(function() {
+
+        //Simulate new page (url)
+        //Desktop
         if ( $(".page-nav ul li a").hasClass("nav--active") ) {
             $(".page-nav ul li a").removeClass("nav--active");
             $(this).addClass("nav--active");
         }
 
+        //Render pages on click
         if ( $(this).hasClass("nav-item") ) {
             var page = $(this).html();
 
@@ -107,6 +173,7 @@ $(document).ready(function() {
             render(page);
         }
 
+        //Render the cities on click
         if ( $(this).hasClass("nav-city") ) {
             var city = $(this).html();
 

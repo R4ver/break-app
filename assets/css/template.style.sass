@@ -19,12 +19,17 @@ section, summary, time, mark, audio, video
 
 //Import font
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,100,300,500,700)
+@import url(http://weloveiconfonts.com/api/?family=fontawesome)
+
+/* fontawesome */
+[class*="fontawesome-"]:before
+    font-family: 'FontAwesome', sans-serif
 
 //responsive mixin
 =breakpoint($point) 
     @if $point == desktop 
         @media (max-width: 1600px)  
-            @content
+            @content 
     @else if $point == tablet 
         @media (max-width: 1250px)  
             @content
@@ -86,73 +91,7 @@ body
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14)
 
     +breakpoint(mobile)
-        display: flex
-        justify-content: space-around
-        position: fixed
-        top: initial
-        left: 0
-        bottom: 0
-        padding: 8px 0px !important
-        width: 100%
-        height: initial
-        z-index: 999
-
-        h1, hr
-            display: none !important
-
-        ul
-            margin-top: 0px !important
-
-        ul ul
-            display: none
-            margin: 0
-            padding: 0
-
-        ul li:hover > ul
-            display: block
-            position: absolute
-            right: 10px
-            bottom: 10px
-            background-color: $white
-            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14)
-            
-
-        ul li
-            display: inline-block !important
-
-        ul li a span
-            display: inline-block !important
-            margin-left: 8px
-            transform: rotate(90deg)
-
-        .nav--cities
-            display: inline-block !important
-            text-align: center
-
-            &::after
-            
-            a 
-                display: block
-                position: relative
-                padding: 8px 16px !important
- 
-                color: $black
-                font-size: 16px
-                text-decoration: none
-
-                transition: all .10s ease
-
-                &:hover
-                    color: $white
-                    background-color: $hico
-
-            ul li 
-                display: block !important
-
-        ul li a 
-            margin-top: 0px !important
-            margin-bottom: 0px !important
-            padding: 8px 16px !important     
+        display: none    
 
     h1
         display: block
@@ -197,6 +136,86 @@ body
         color: $white !important
         background-color: $hico
 
+.page-nav--mobile
+    display: none
+
+    +breakpoint(mobile) 
+        display: flex
+        justify-content: space-around
+        position: fixed
+        top: initial
+        left: 0
+        bottom: 0
+        padding: 8px 0px !important
+        width: 100%
+        height: initial
+        z-index: 800
+        box-shadow: 0 -1px 3px rgba(0,0,0,0.12), 0 -1px 2px rgba(0,0,0,0.14)
+
+        ul
+            margin: 0
+            padding: 0
+
+        ul ul
+            display: none
+            margin: 0
+            padding: 0
+
+            li
+                display: block
+
+        ul li:hover > ul
+            display: block
+            position: absolute
+            bottom: 10px
+            margin-left: -10px
+            background-color: $white
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.14)
+            
+
+        ul li
+            display: inline-block
+            list-style: none
+
+        ul li a span
+            display: inline-block
+            margin-left: 8px
+            transform: rotate(90deg)
+
+        ul li a
+            display: block
+            position: relative
+            padding: 8px 16px !important
+
+            color: $black
+            font-size: 16px
+            text-decoration: none
+            text-align: center
+
+            transition: all .10s ease16px
+
+.page-notification
+    display: block
+    position: fixed
+    left: 50%
+    bottom: -200px
+    margin: 0
+    padding: 16px
+    z-index: 999
+
+    background-color: $hico
+    box-shadow: 0 2px 3px rgba(0,0,0,0.12), 0 2px 2px rgba(0,0,0,0.14)
+
+    transform: translate(-50%, 0)
+
+    p
+        color: $white
+        font-size: 32px
+        font-weight: $light
+
+        &::before
+            margin-right: 8px
+
 .page-content
     order: 2
     display: block
@@ -222,14 +241,6 @@ body
         justify-content: space-around
         position: relative
         padding: 24px
-
-        .article-source
-            flow-into: main
-            background-color: blue
-
-        .region
-            flow-from: main
-            background-color: blue
 
         .article-card
             display: block
