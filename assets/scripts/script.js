@@ -16,7 +16,7 @@ $(document).ready(function() {
     });
 
     setInterval(function() {
-        checkTime("Næstved");
+        checkTime(localStorage.getItem("aspit_location"));
     }, 1000);
 
     //Check for notifications
@@ -42,9 +42,7 @@ $(document).ready(function() {
             var content = key.content;
 
             if ( city === arg ) {
-                console.log(arg);
                 for ( var i = 0; i < key.times.length; i++ ) {
-
                     $(".page-article").append("<section class='article-card'><span>Pause: " + time[i][0] + " - " + time[i][1] + "</span></section>");
                 }
             }
@@ -55,6 +53,7 @@ $(document).ready(function() {
         }
 
         //checkLocation();
+        setLocation();
     };
 
     //Notifications
@@ -95,7 +94,7 @@ $(document).ready(function() {
 
                     //Breaks
                     if ( cuho === conv_times[0] && cumi === conv_times[1] && cuse === 0 ) {
-                        nt("Time to take a break", "assets/images/alarm.svg", "Break");
+                        nt("Time to take a break", "assets/images/alarm.svg", "Break " + cuho + ":" + cumi);
                     }
 
                     //Class starts again
@@ -107,69 +106,91 @@ $(document).ready(function() {
         }
     };
 
-    //Check location based on input
-    // var checkLocation = function () {
-    //     var nt_content = "<input type='text' />";
-    //     var nt_wrapper = "<div id=''><p class='fontawesome-bell-alt'>" + nt_content + "</p></div>"
+    //Set location
+    var setLocation = function () {
+        var $set = $(".set-location");
+        var location = $(".location-name").html();
+        $set.css("display", "none");
 
-    //     body.prepend(nt_wrapper);
-    //     var nt = $("#page_notification");
-    // };
+        if ( location === localStorage.getItem("aspit_location") ) {
+            $set.addClass("set-location set-location--disabled");
+            $set.removeAttr('href')
+            console.log("true");
+        } else {
+            $set.removeClass("set-location set-location--disabled");
+            $set.addAttr('href', "#");
+            console.log("false");
+        }
 
-    //Format the text and save to localStorage
-    var saveAll = function() {
-        var saveData = []
-
-        //This loop gets the array number eg. jsonData.aspit[0, 1, 2] etc..
-        for ( var item in jsonData.aspit ) {
-            
-            var city = jsonData.aspit[item].city;
-            var times = []
-
-            //Get times from array
-            for ( var i = 0; i < jsonData.aspit[item].times.length; i++ ) {
-                times += jsonData.aspit[item].times[i] + " | ";
-            }
-
-            saveData += "--" + city + ": ";
-            //Save times and replace commas with dash
-            saveData += times.replace(/,/g, " - ");
-
-            console.log(saveData);
-
-            //Save in localStorage "aspit_times"
-            localStorage.setItem("aspit_times", JSON.stringify(saveData));
+        if ( $(".page-content").hasClass("city") ) {
+            $(".set-location").css("display", "inline-block");
+            $set.click(function() {
+                //Save in localStorage "aspit_times"
+                localStorage.setItem("aspit_location", location);
+            });
         }
     };
 
-    //Save specific city
-    var save = function(arg) {
-        var saveData = [];
+      //-------------------------------------------//
+     //              Old functions                //
+    //-------------------------------------------//
+    //Format the text and save to localStorage
+    // var saveAll = function() {
+    //     var saveData = []
 
-        //This loop gets the array number eg. jsonData.aspit[0, 1, 2] etc..
-        for ( var item in jsonData.aspit ) {
-            var key = jsonData.aspit[item];
+    //     //This loop gets the array number eg. jsonData.aspit[0, 1, 2] etc..
+    //     for ( var item in jsonData.aspit ) {
+            
+    //         var city = jsonData.aspit[item].city;
+    //         var times = []
 
-            var city = key.city;
-            var times = [];
+    //         //Get times from array
+    //         for ( var i = 0; i < jsonData.aspit[item].times.length; i++ ) {
+    //             times += jsonData.aspit[item].times[i] + " | ";
+    //         }
 
-            //Check for the specific city
-            if ( key.city === arg ) {
-                for ( var i = 0; i < key.times.length; i++ ) {
-                    times += key.times[i] + " | ";
-                }
+    //         saveData += "--" + city + ": ";
+    //         //Save times and replace commas with dash
+    //         saveData += times.replace(/,/g, " - ");
 
-                saveData += arg + ": ";
-                //Save times and replace commas with dash
-                saveData += times.replace(/,/g, " - ");
-            }
-        }
+    //         console.log(saveData);
 
-        console.log(saveData);
+    //         //Save in localStorage "aspit_times"
+    //         localStorage.setItem("aspit_times", JSON.stringify(saveData));
+    //     }
+    // };
 
-        //Save in localStorage "aspit_times"
-        localStorage.setItem("aspit_times", JSON.stringify(saveData));
-    }
+    // //Save specific city
+    // var save = function(arg) {
+    //     var saveData = [];
+
+    //     //This loop gets the array number eg. jsonData.aspit[0, 1, 2] etc..
+    //     for ( var item in jsonData.aspit ) {
+    //         var key = jsonData.aspit[item];
+
+    //         var city = key.city;
+    //         var times = [];
+
+    //         //Check for the specific city
+    //         if ( key.city === arg ) {
+    //             for ( var i = 0; i < key.times.length; i++ ) {
+    //                 times += key.times[i] + " | ";
+    //             }
+
+    //             saveData += arg + ": ";
+    //             //Save times and replace commas with dash
+    //             saveData += times.replace(/,/g, " - ");
+    //         }
+    //     }
+      
+    //     console.log(saveData);
+
+    //     //Save in localStorage "aspit_times"
+    //     localStorage.setItem("aspit_times", JSON.stringify(saveData));
+    // }
+      //-------------------------------------------//
+     //           Old functions End               //
+    //-------------------------------------------//
 
     //For template navigation
     $(".page-nav ul li a").click(function() {
@@ -185,6 +206,12 @@ $(document).ready(function() {
         if ( $(this).hasClass("nav-item") ) {
             var page = $(this).html();
 
+            $("#pageMain").removeAttr("class");
+            $(".set-location").empty();
+            $(".set-location").css("display", "none");
+
+            $("#pageMain").addClass("page-content page page-" + page);
+
             $(".page-city").html(page);
             render(page);
         }
@@ -192,6 +219,14 @@ $(document).ready(function() {
         //Render the cities on click
         if ( $(this).hasClass("nav-city") ) {
             var city = $(this).html();
+
+            $("#pageMain").removeAttr("class");
+            $(".set-location").removeAttr("class");
+            $(".set-location").empty();
+
+            $("#pageMain").addClass("page-content city city-" + city);
+            $(".set-location").addClass("set-location set-location--name=" + city);
+            $(".set-location").html("Set location: <span class='location-name'>" + city +"</span>");
 
             $(".page-city").html(city + " Times");
             render(city);

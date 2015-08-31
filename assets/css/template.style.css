@@ -195,10 +195,26 @@ body {
   @media (max-width: 650px) {
     .page-content {
       margin-bottom: 96px; } }
-  .page-content h1 {
-    display: block;
+  .page-content .page-city {
+    display: inline-block;
     color: #272727;
     font-size: 24px; }
+  .page-content .set-location {
+    display: inline-block;
+    position: relative;
+    margin-left: 16px;
+    padding: 8px 16px;
+    color: #fff;
+    background-color: #5790DB;
+    -webkit-transition: all 0.15s ease;
+            transition: all 0.15s ease; }
+    .page-content .set-location:hover {
+      background-color: #5C9DF5; }
+  .page-content .set-location--disabled {
+    cursor: not-allowed;
+    background-color: rgba(0, 0, 0, 0.1); }
+    .page-content .set-location--disabled:hover {
+      background-color: rgba(0, 0, 0, 0.1); }
   .page-content .page-article {
     display: -webkit-box;
     display: -webkit-flex;
