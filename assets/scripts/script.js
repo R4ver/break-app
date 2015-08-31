@@ -17,7 +17,7 @@ $(document).ready(function() {
 
     setInterval(function() {
         checkTime("Næstved");
-    }, 1000)
+    }, 1000);
 
     //Check for notifications
     var permissions = function() {
@@ -90,10 +90,17 @@ $(document).ready(function() {
                     var conv_times = times.replace(/:|,/g,' ').split(" ").map(Number);
 
                     // console.log(cuho + ":" + cumi + ":" + cuse);
-                    //console.log(conv_times[0] + " " + conv_times[1]);
+                    // console.log(conv_times[0] + " " + conv_times[1]);
+                    // console.log(conv_times[2] + " " + conv_times[3]);
 
+                    //Breaks
                     if ( cuho === conv_times[0] && cumi === conv_times[1] && cuse === 0 ) {
                         nt("Time to take a break", "assets/images/alarm.svg", "Break");
+                    }
+
+                    //Class starts again
+                    if ( cuho === conv_times[2] && cumi === conv_times[3] && cuse === 0 ) {
+                        nt("Class start again", "assets/images/alarm.svg", "Break Over");
                     }
                 }
             }
