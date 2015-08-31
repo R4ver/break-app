@@ -1,20 +1,60 @@
+<!-- Template for the app -->
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <title>Template</title>
 
-        <title>LocalStorage</title>
+        <!-- Load styles -->
+        <link rel="stylesheet" href="assets/css/template.style.min.css">
 
-        <link rel="stylesheet" href="assets/css/Old files/style.css">
+        <!-- Load scripts -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="assets/scripts/script.js"></script>
-
     </head>
     <body>
-        <header>
-            <span>
-                We've saved your data.
-            </span>
-            <a href="about.html">View Saved Data</a>
-        </header>
+        <div id="wrapper" class="page-wrapper">
+            
+            <nav class="page-nav--desktop page-nav">
+                <h1>Pages</h1>
+                <hr>
+                <ul>
+                    <li><a href="#" class="nav-item nav--active">Home</a></li>
+                    <li><a href="#" class="nav-item">About</a></li>
+                    <li><a href="#" class="nav-item">Other</a></li>                    
+                </ul>
+                <h1>Cities</h1>
+                <hr>
+                <ul>
+                    <li><a href="#" class="nav-city">Næstved</a></li>
+                    <li><a href="#" class="nav-city">Odense</a></li>
+                    <li><a href="#" class="nav-city">Rønne</a></li>
+                </ul> 
+            </nav>
+
+            <nav class="page-nav--mobile page-nav">
+                <ul>
+                    <li><a href="#" class="nav-item nav--active">Home</a></li>
+                    <li><a href="#" class="nav-item">About</a></li>
+                    <li><a href="#" class="nav-item">Other</a></li>  
+                    <li><a href="#" class="nav-item nav--cities">Cities</a>
+                        <ul>
+                            <li><a href="#" class="nav-city">Næstved</a></li>
+                            <li><a href="#" class="nav-city">Odense</a></li>
+                            <li><a href="#" class="nav-city">Rønne</a></li>
+                        </ul> 
+                    </li>
+                </ul>
+            </nav>
+        
+
+            <main class="page-content">
+                <h1 class="page-city">Home</h1> 
+                <article class="page-article">
+                </article>
+            </main>
+        </div>
     </body>
 </html>
