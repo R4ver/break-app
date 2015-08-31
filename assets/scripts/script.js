@@ -8,6 +8,9 @@ $(document).ready(function() {
     $.getJSON('assets/scripts/data.json', function(data) {
         jsonData = data;
 
+        //Request permission
+        permissions();
+
         //Render home page
         render("Home");
     });
@@ -15,6 +18,15 @@ $(document).ready(function() {
     setInterval(function() {
         checkTime("Næstved");
     }, 1000)
+
+    //Check for notifications
+    var permissions = function() {
+        if ( !("Notification" in window) ) {
+            alert("This browser does not support desktop notification");
+        } else if ( Notification.permission !== 'denied' ) {
+            Notification.requestPermission();
+        }
+    };
 
     //Render on index page console
     var render = function(arg) {
@@ -32,7 +44,6 @@ $(document).ready(function() {
             if ( city === arg ) {
                 console.log(arg);
                 for ( var i = 0; i < key.times.length; i++ ) {
-                    console.log(time[i]); 
 
                     $(".page-article").append("<section class='article-card'><span>Pause: " + time[i][0] + " - " + time[i][1] + "</span></section>");
                 }
@@ -48,8 +59,6 @@ $(document).ready(function() {
 
     //Notifications
     var nt = function(the_body, the_icon, the_title) {
-
-        Notification.requestPermission();
 
         var options = {
             body: the_body,
@@ -78,12 +87,12 @@ $(document).ready(function() {
                     var split1 = [];
 
                     times += key.times[i];
-                    var new_times = times.replace(/:|,/g,' ').split(" ").map(Number);
+                    var conv_times = times.replace(/:|,/g,' ').split(" ").map(Number);
 
-                    console.log(cuho + ":" + cumi + ":" + cuse);
-                    //console.log(new_times[0] + " " + new_times[1]);
+                    // console.log(cuho + ":" + cumi + ":" + cuse);
+                    //console.log(conv_times[0] + " " + conv_times[1]);
 
-                    if ( cuho === new_times[0] && cumi === new_times[1] && cuse === 0 ) {
+                    if ( cuho === conv_times[0] && cumi === conv_times[1] && cuse === 0 ) {
                         nt("Time to take a break", "assets/images/alarm.svg", "Break");
                     }
                 }
