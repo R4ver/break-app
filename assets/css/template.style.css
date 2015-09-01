@@ -200,7 +200,7 @@ body {
     color: #272727;
     font-size: 24px; }
   .page-content .set-location {
-    display: inline-block;
+    display: none;
     position: relative;
     margin-left: 16px;
     padding: 8px 16px;
@@ -212,7 +212,7 @@ body {
       background-color: #5C9DF5; }
   .page-content .set-location--disabled {
     cursor: not-allowed;
-    background-color: rgba(0, 0, 0, 0.1); }
+    background-color: rgba(0, 0, 0, 0.1) !important; }
     .page-content .set-location--disabled:hover {
       background-color: rgba(0, 0, 0, 0.1); }
   .page-content .page-article {

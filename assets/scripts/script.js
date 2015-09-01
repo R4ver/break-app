@@ -13,6 +13,7 @@ $(document).ready(function() {
 
         //Render home page
         render("Home");
+        console.log(localStorage.getItem("aspit_location"));
     });
 
     setInterval(function() {
@@ -113,23 +114,66 @@ $(document).ready(function() {
         $set.css("display", "none");
 
         if ( location === localStorage.getItem("aspit_location") ) {
-            $set.addClass("set-location set-location--disabled");
-            $set.removeAttr('href')
-            console.log("true");
+            $set.addClass("set-location--disabled");
+            $set.removeAttr('href');
         } else {
-            $set.removeClass("set-location set-location--disabled");
-            $set.addAttr('href', "#");
-            console.log("false");
+            $set.removeClass("set-location--disabled");
+            $set.attr("href", "#");
         }
 
         if ( $(".page-content").hasClass("city") ) {
-            $(".set-location").css("display", "inline-block");
+            $set.css("display", "inline-block");
             $set.click(function() {
                 //Save in localStorage "aspit_times"
                 localStorage.setItem("aspit_location", location);
+                $(this).addClass("set-location--disabled");
             });
         }
     };
+
+    //For template navigation
+    $(".page-nav ul li a").click(function() {
+
+        //Simulate new page (url)
+        //Desktop
+        if ( $(".page-nav ul li a").hasClass("nav--active") ) {
+            $(".page-nav ul li a").removeClass("nav--active");
+            $(this).addClass("nav--active");
+        }
+
+        //Render pages on click
+        if ( $(this).hasClass("nav-item") ) {
+            var page = $(this).html();
+
+            $("#pageMain").removeAttr("class");
+            $(".set-location").empty();
+            $(".set-location").css("display", "none");
+
+            $("#pageMain").addClass("page-content page page-" + page);
+
+            $(".page-city").html(page);
+            render(page);
+        }
+
+        //Render the cities on click
+        if ( $(this).hasClass("nav-city") ) {
+            var city = $(this).html();
+
+            //Clean up classes and content
+            $("#pageMain").removeAttr("class");
+            $("#setLocation").empty();
+            $("#setLocation").removeAttr("class");
+
+            //Add classes and content
+            $("#pageMain").addClass("page-content city city-" + city);
+            $("#setLocation").addClass("set-location set-location--name=" + city);
+            $("#setLocation").html("Set location: <span class='location-name'>" + city + "</span>");
+
+            $(".page-city").html(city + " Times");
+            render(city);
+        }      
+    });
+
 
       //-------------------------------------------//
      //              Old functions                //
@@ -191,45 +235,4 @@ $(document).ready(function() {
       //-------------------------------------------//
      //           Old functions End               //
     //-------------------------------------------//
-
-    //For template navigation
-    $(".page-nav ul li a").click(function() {
-
-        //Simulate new page (url)
-        //Desktop
-        if ( $(".page-nav ul li a").hasClass("nav--active") ) {
-            $(".page-nav ul li a").removeClass("nav--active");
-            $(this).addClass("nav--active");
-        }
-
-        //Render pages on click
-        if ( $(this).hasClass("nav-item") ) {
-            var page = $(this).html();
-
-            $("#pageMain").removeAttr("class");
-            $(".set-location").empty();
-            $(".set-location").css("display", "none");
-
-            $("#pageMain").addClass("page-content page page-" + page);
-
-            $(".page-city").html(page);
-            render(page);
-        }
-
-        //Render the cities on click
-        if ( $(this).hasClass("nav-city") ) {
-            var city = $(this).html();
-
-            $("#pageMain").removeAttr("class");
-            $(".set-location").removeAttr("class");
-            $(".set-location").empty();
-
-            $("#pageMain").addClass("page-content city city-" + city);
-            $(".set-location").addClass("set-location set-location--name=" + city);
-            $(".set-location").html("Set location: <span class='location-name'>" + city +"</span>");
-
-            $(".page-city").html(city + " Times");
-            render(city);
-        }      
-    });
 });
