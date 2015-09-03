@@ -178,6 +178,10 @@ $(document).ready(function() {
 
             $(".page-city").html(page);
             render(page);
+
+            if ( $("#pageMain").hasClass("page-Home") ) {
+                test();
+            }
         }
 
         //Render the cities on click
@@ -196,6 +200,6 @@ $(document).ready(function() {
 
             $(".page-city").html(city + " Times");
             render(city);
-        }      
+        }
     });
 });
