@@ -13,7 +13,8 @@ $(document).ready(function() {
 
         //Render home page
         render("Home");
-        console.log(localStorage.getItem("aspit_location"));
+
+        test();
     });
 
     setInterval(function() {
@@ -29,7 +30,7 @@ $(document).ready(function() {
         }
     };
 
-    //Render on index page console
+    //Render on pages
     var render = function(arg) {
         $(".page-article").empty();
 
@@ -100,7 +101,7 @@ $(document).ready(function() {
 
                     //Class starts again
                     if ( cuho === conv_times[2] && cumi === conv_times[3] && cuse === 0 ) {
-                        nt("Class start again", "assets/images/alarm.svg", "Break Over");
+                        nt("Class start again", "assets/images/alarm.svg", "Break Over" + cuho + ":" + cumi);
                     }
                 }
             }
@@ -128,6 +129,30 @@ $(document).ready(function() {
                 localStorage.setItem("aspit_location", location);
                 $(this).addClass("set-location--disabled");
             });
+        }
+    };
+
+    //Functionality testing
+    var test = function() {
+        //Test notifications
+        if ( !("Notification" in window) ) {
+            $(".resource-notification").css("background-color", "red");
+        } else {
+            $(".resource-notification").css("background-color", "rgba(0,240,0,1)");
+        }
+
+        //Test localStorage
+        if( typeof Storage === "undefined" ) {
+            $(".resource-localstorage").css("background-color", "red");
+        } else {
+            $(".resource-localstorage").css("background-color", "rgba(0,240,0,1)");
+        }
+
+        //Test location
+        if ( localStorage.getItem("aspit_location") === "undefined" ) {
+            $(".resource-location").css("background-color", "red");
+        } else {
+            $(".resource-location").css("background-color", "rgba(0,240,0,1)");
         }
     };
 
@@ -173,66 +198,4 @@ $(document).ready(function() {
             render(city);
         }      
     });
-
-
-      //-------------------------------------------//
-     //              Old functions                //
-    //-------------------------------------------//
-    //Format the text and save to localStorage
-    // var saveAll = function() {
-    //     var saveData = []
-
-    //     //This loop gets the array number eg. jsonData.aspit[0, 1, 2] etc..
-    //     for ( var item in jsonData.aspit ) {
-            
-    //         var city = jsonData.aspit[item].city;
-    //         var times = []
-
-    //         //Get times from array
-    //         for ( var i = 0; i < jsonData.aspit[item].times.length; i++ ) {
-    //             times += jsonData.aspit[item].times[i] + " | ";
-    //         }
-
-    //         saveData += "--" + city + ": ";
-    //         //Save times and replace commas with dash
-    //         saveData += times.replace(/,/g, " - ");
-
-    //         console.log(saveData);
-
-    //         //Save in localStorage "aspit_times"
-    //         localStorage.setItem("aspit_times", JSON.stringify(saveData));
-    //     }
-    // };
-
-    // //Save specific city
-    // var save = function(arg) {
-    //     var saveData = [];
-
-    //     //This loop gets the array number eg. jsonData.aspit[0, 1, 2] etc..
-    //     for ( var item in jsonData.aspit ) {
-    //         var key = jsonData.aspit[item];
-
-    //         var city = key.city;
-    //         var times = [];
-
-    //         //Check for the specific city
-    //         if ( key.city === arg ) {
-    //             for ( var i = 0; i < key.times.length; i++ ) {
-    //                 times += key.times[i] + " | ";
-    //             }
-
-    //             saveData += arg + ": ";
-    //             //Save times and replace commas with dash
-    //             saveData += times.replace(/,/g, " - ");
-    //         }
-    //     }
-      
-    //     console.log(saveData);
-
-    //     //Save in localStorage "aspit_times"
-    //     localStorage.setItem("aspit_times", JSON.stringify(saveData));
-    // }
-      //-------------------------------------------//
-     //           Old functions End               //
-    //-------------------------------------------//
 });
