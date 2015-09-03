@@ -37,7 +37,7 @@
 
         {
             "page": "Home",
-            "content": "<div class='resource-test resource-localstorage'>localStorage</div><div class='resource-test resource-notification'>Notifications</div><div class='resource-test resource-location'>Location</div>"
+            "content": "<div class='resource-test resource-localstorage'>localStorage</div><div class='resource-test resource-notification'>Notifications</div><div class='resource-test resource-location'>Location</div><div class='resource-test resource-browser'>Browser is IE</div>"
         },
 
         {

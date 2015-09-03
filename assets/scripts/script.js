@@ -60,13 +60,21 @@ $(document).ready(function() {
 
     //Notifications
     var nt = function(the_body, the_icon, the_title) {
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;   // At least IE6
+
 
         var options = {
             body: the_body,
             icon: the_icon
         }
 
-        var n = new Notification(the_title, options);
+        if ( isIE ) {
+            
+            alert(the_title + " : " + the_body);
+
+        } else {
+            var n = new Notification(the_title, options);
+        }
     };
 
     //Check time
@@ -153,6 +161,14 @@ $(document).ready(function() {
             $(".resource-location").css("background-color", "red");
         } else {
             $(".resource-location").css("background-color", "rgba(0,240,0,1)");
+        }
+
+        //Test browser
+        var isIE = /*@cc_on!@*/false || !!document.documentMode;   // At least IE6
+        if ( isIE ) {
+            $(".resource-browser").css("background-color", "rgba(0,240,0,1)");
+        } else {
+            $(".resource-browser").css("background-color", "red");
         }
     };
 
