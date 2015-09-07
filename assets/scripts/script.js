@@ -6,6 +6,7 @@ $(document).ready(function() {
 
     //Get the JSON and save to array and call functions
     $.getJSON('assets/scripts/data.json', function(data) {
+        //Get the data into local array
         jsonData = data;
 
         //Request permission
@@ -14,6 +15,7 @@ $(document).ready(function() {
         //Render home page
         render("Home");
 
+        //Broser compatibility
         test();
     });
 
@@ -23,15 +25,16 @@ $(document).ready(function() {
 
     //Check for notifications
     var permissions = function() {
-        if ( !("Notification" in window) ) {
+        if ( !("Notification" in window) ) { //If the broser doesn't supports desktop notifications - Error
             alert("This browser does not support desktop notification");
-        } else if ( Notification.permission !== 'denied' ) {
+        } else if ( Notification.permission !== 'denied' ) { //Else if it's supported and the permission is not granted - ask permission
             Notification.requestPermission();
         }
     };
 
     //Render on pages
     var render = function(arg) {
+        //Clear the page for content before rendering new content
         $(".page-article").empty();
 
         for ( var item in jsonData.aspit ) {
@@ -43,18 +46,18 @@ $(document).ready(function() {
             var page = key.page;
             var content = key.content;
 
+            //If the page is a city
             if ( city === arg ) {
                 for ( var i = 0; i < key.times.length; i++ ) {
                     $(".page-article").append("<section class='article-card'><span>Pause: " + time[i][0] + " - " + time[i][1] + "</span></section>");
                 }
             }
 
+            //If the page is an actual page - not ment for city times
             if ( page === arg ) {
                 $(".page-article").append("<p>" + content + "</p>");
             }
         }
-
-        //checkLocation();
         setLocation();
     };
 
@@ -62,17 +65,14 @@ $(document).ready(function() {
     var nt = function(the_body, the_icon, the_title) {
         var isIE = /*@cc_on!@*/false || !!document.documentMode;   // At least IE6
 
-
         var options = {
             body: the_body,
             icon: the_icon
         }
 
-        if ( isIE ) {
-            
+        if ( isIE ) { //If the browser is IE - use alerts instead            
             alert(the_title + " : " + the_body);
-
-        } else {
+        } else { //Else create desktop notification
             var n = new Notification(the_title, options);
         }
     };
@@ -88,26 +88,24 @@ $(document).ready(function() {
 
             if ( city === arg ) {
                 for ( var i = 0; i < key.times.length; i++ ) {
-                    var cuho = new Date().getHours();
-                    var cumi = new Date().getMinutes();
-                    var cuse = new Date().getSeconds();
+                    var cuho = new Date().getHours(); //Curent hours
+                    var cumi = new Date().getMinutes(); //Curent minutes
+                    var cuse = new Date().getSeconds(); //Curent seconds
 
                     var times  = [];
                     var split1 = [];
 
+                    //Convert times from string to number so it will be checked
+                    //in the if statements
                     times += key.times[i];
                     var conv_times = times.replace(/:|,/g,' ').split(" ").map(Number);
 
-                    // console.log(cuho + ":" + cumi + ":" + cuse);
-                    // console.log(conv_times[0] + " " + conv_times[1]);
-                    // console.log(conv_times[2] + " " + conv_times[3]);
-
-                    //Breaks
+                    //Breaks begin
                     if ( cuho === conv_times[0] && cumi === conv_times[1] && cuse === 0 ) {
                         nt("Time to take a break", "assets/images/alarm.svg", "Break " + cuho + ":" + cumi);
                     }
 
-                    //Class starts again
+                    //Breaks end
                     if ( cuho === conv_times[2] && cumi === conv_times[3] && cuse === 0 ) {
                         nt("Class start again", "assets/images/alarm.svg", "Break Over" + cuho + ":" + cumi);
                     }
@@ -122,19 +120,23 @@ $(document).ready(function() {
         var location = $(".location-name").html();
         $set.css("display", "none");
 
+        //If the location is already set for this city - disable
         if ( location === localStorage.getItem("aspit_location") ) {
             $set.addClass("set-location--disabled");
             $set.removeAttr('href');
-        } else {
+        } else { //Else it is not set - enable
             $set.removeClass("set-location--disabled");
             $set.attr("href", "#");
         }
 
+        //If the page is == city - show button
+        //Set location on localStorage
         if ( $(".page-content").hasClass("city") ) {
             $set.css("display", "inline-block");
             $set.click(function() {
-                //Save in localStorage "aspit_times"
+                //Save in localStorage "aspit_location"
                 localStorage.setItem("aspit_location", location);
+                //Disable button upon setting location
                 $(this).addClass("set-location--disabled");
             });
         }
@@ -182,7 +184,7 @@ $(document).ready(function() {
             $(this).addClass("nav--active");
         }
 
-        //Render pages on click
+        //Check if page is a - content page
         if ( $(this).hasClass("nav-item") ) {
             var page = $(this).html();
 
@@ -195,12 +197,13 @@ $(document).ready(function() {
             $(".page-city").html(page);
             render(page);
 
+            //Check if the page is the home page, if true - render browser test
             if ( $("#pageMain").hasClass("page-Home") ) {
                 test();
             }
         }
 
-        //Render the cities on click
+        //Check if page is a - city page
         if ( $(this).hasClass("nav-city") ) {
             var city = $(this).html();
 
