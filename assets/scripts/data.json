@@ -21,7 +21,8 @@
                 ["13:20", "13:30"],
                 ["14:15", "14:25"],
                 ["15:10", "15:20"]
-            ]
+            ],
+            "image": true
         },
 
         {
@@ -37,7 +38,7 @@
 
         {
             "page": "Home",
-            "content": "<div class='resource-test resource-localstorage'>localStorage</div><div class='resource-test resource-notification'>Notifications</div><div class='resource-test resource-location'>Location</div><div class='resource-test resource-browser'>Browser is IE</div>"
+            "content": "<div class='resource-test resource-localstorage'>localStorage</div><div class='resource-test resource-notification'>Notifications</div><div class='resource-test resource-location'>Location here</div><div class='resource-test resource-browser'>Browser is IE</div>"
         },
 
         {

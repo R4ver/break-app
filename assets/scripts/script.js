@@ -15,7 +15,7 @@ $(document).ready(function() {
         //Render home page
         render("Home");
 
-        //Broser compatibility
+        //Browser compatibility
         test();
     });
 
@@ -25,9 +25,9 @@ $(document).ready(function() {
 
     //Check for notifications
     var permissions = function() {
-        if ( !("Notification" in window) ) { //If the broser doesn't supports desktop notifications - Error
+        if ( !("Notification" in window) ) { //If the browser doesn't supports desktop notifications - Error
             alert("This browser does not support desktop notification");
-        } else if ( Notification.permission !== 'denied' ) { //Else if it's supported and the permission is not granted - ask permission
+        } else if ( Notification.permission !== 'denied' ) { //Else if it's supported and the permission is not denied - ask permission
             Notification.requestPermission();
         }
     };
@@ -42,6 +42,7 @@ $(document).ready(function() {
 
             var city = key.city;
             var time = key.times;
+            var image = key.image;
 
             var page = key.page;
             var content = key.content;
@@ -50,6 +51,14 @@ $(document).ready(function() {
             if ( city === arg ) {
                 for ( var i = 0; i < key.times.length; i++ ) {
                     $(".page-article").append("<section class='article-card'><span>Pause: " + time[i][0] + " - " + time[i][1] + "</span></section>");
+                }
+
+                if ( city === "Rønne" || image === true ) {
+                    $(".page-cover").prepend("<div class='overlay'></div><img src='assets/images/Ronne-small.jpg' srcset='assets/images/Ronne-medium.jpg 1000w, assets/images/Ronne-large.jpg 2000w' />");
+                } else if ( image === true ) {
+                    $(".page-cover").prepend("<div class='overlay'></div><img src='assets/images/" + city + "-small.jpg' srcset='" + city + "-medium.jpg 1000w, " + city + "-large 2000w.jpg' />");
+                } else {
+                    $(".page-cover").empty();
                 }
             }
 
@@ -70,12 +79,22 @@ $(document).ready(function() {
             icon: the_icon
         }
 
-        if ( isIE ) { //If the browser is IE - use alerts instead            
-            alert(the_title + " : " + the_body);
+        if ( isIE ) { //If the browser is IE - use alerts instead         
+            // alert(the_title + " : " + the_body);
+            var title = document.title;
+            var intv = window.setInterval(function () {
+                document.title = document.title === '' ? title : '';
+            }, 500);
         } else { //Else create desktop notification
             var n = new Notification(the_title, options);
         }
     };
+
+    // call this to stop the blinking
+    function stopBlink() {
+        window.clearInterval(intv);
+        document.title = title;
+    }
 
     //Check time
     var checkTime = function(arg) {
