@@ -1,7 +1,8 @@
 $(document).ready(function() {
 
     var body = $("body");
-
+    var ntLog = [];
+    var logID = 0;
     var jsonData = [];
 
     //Get the JSON and save to array and call functions
@@ -54,7 +55,7 @@ $(document).ready(function() {
                 }
 
                 if ( city === "Rønne" || image === true ) {
-                    $(".page-cover").prepend("<div class='overlay'></div><img src='assets/images/Ronne-small.jpg' srcset='assets/images/Ronne-medium.jpg 1000w, assets/images/Ronne-large.jpg 2000w' />");
+                    $(".page-cover").prepend("<div class='overlay'></div><img src='assets/images/Ronne-tiny.jpg' srcset='assets/images/Ronne-small.jpg 500w, assets/images/Ronne-medium.jpg 800w, assets/images/Ronne-large.jpg 1500w' />");
                 } else if ( image === true ) {
                     $(".page-cover").prepend("<div class='overlay'></div><img src='assets/images/" + city + "-small.jpg' srcset='" + city + "-medium.jpg 1000w, " + city + "-large 2000w.jpg' />");
                 } else {
@@ -122,6 +123,8 @@ $(document).ready(function() {
                     //Breaks begin
                     if ( cuho === conv_times[0] && cumi === conv_times[1] && cuse === 0 ) {
                         nt("Time to take a break", "assets/images/alarm.svg", "Break " + cuho + ":" + cumi);
+                        ntLog.push({id: logID + 1, title: "Break " + cuho + ":" + cumi, body: "Time to take a break"});
+                        console.log(ntLog);
                     }
 
                     //Breaks end
